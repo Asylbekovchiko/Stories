@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+
+    <kg.nurtelecom.stories.views.GesturesView
+        android:id="@+id/gestures_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/view_72dp" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_story"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:cardCornerRadius="22dp">
+
+        <FrameLayout
+            android:id="@+id/overlayLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:foreground="@drawable/bg_shading">
+
+            <ImageView
+                android:id="@+id/storyImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
+
+            <kg.nurtelecom.stories.views.BadgeCardView
+                android:id="@+id/badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/padding_16dp"
+                android:layout_marginTop="28dp"
+                android:visibility="gone"
+                app:cardBackground="@color/magenta_1"
+                app:cardCornerRadius="@dimen/radius_14dp"
+                app:icon="@drawable/ic_heart"
+                app:title="Для тебя" />
+
+            <ImageView
+                android:id="@+id/btn_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginHorizontal="@dimen/padding_16dp"
+                android:layout_marginTop="34dp"
+                android:src="@drawable/ic_close_white" />
+
+            <kg.nurtelecom.stories.views.StoryProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/padding_16dp"
+                android:layout_marginTop="@dimen/padding_12dp"
+                app:animationDuration="10"
+                app:barsHeight="@dimen/padding_6dp"
+                app:gapBetweenBars="@dimen/padding_8dp"
+                app:progressBackgroundColor="@color/gray_4"
+                app:progressColor="@color/white_1" />
+
+        </FrameLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@id/subtitle"
+                android:layout_margin="@dimen/padding_16dp"
+                android:textAppearance="@style/Chili.H4.Primary.Bold"
+                android:textColor="@color/white_1" />
+
+            <TextView
+                android:id="@+id/subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginHorizontal="@dimen/padding_16dp"
+                android:layout_marginBottom="36dp"
+                android:textAppearance="@style/Chili.H7"
+                app:layout_constraintBottom_toTopOf="@id/description"
+                android:textColor="@color/white_1" />
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/padding_16dp"
+                android:layout_marginBottom="36dp"
+                android:textAppearance="@style/Chili.H7"
+                android:textColor="@color/white_1"
+                app:layout_constraintBottom_toTopOf="@id/btn_details"
+                android:visibility="gone" />
+            <Button
+                android:id="@+id/btn_details"
+                style="@style/Chili.ButtonStyle.Accent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/padding_16dp"
+                android:layout_marginBottom="@dimen/padding_16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:text="Детали" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_card_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>
