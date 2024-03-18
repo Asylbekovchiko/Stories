@@ -95,8 +95,8 @@ class GesturesView @JvmOverloads constructor(
     override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean { return true }
 
     override fun onFling(
-        e1: MotionEvent?,
         e2: MotionEvent,
+        p1: MotionEvent,
         velocityX: Float,
         velocityY: Float
     ): Boolean { return false }
@@ -106,8 +106,8 @@ class GesturesView @JvmOverloads constructor(
     override fun onShowPress(e: MotionEvent) {}
 
     override fun onScroll(
-        e1: MotionEvent?,
         e2: MotionEvent,
+        p1: MotionEvent,
         distanceX: Float,
         distanceY: Float
     ): Boolean { return false }
