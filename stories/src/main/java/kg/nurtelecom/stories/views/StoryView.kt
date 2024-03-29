@@ -30,7 +30,11 @@ class StoryView @JvmOverloads constructor(
     private var currentIndex: Int = 0
     private var currentClickedView: View? = null
 
-    fun setup(fragmentManager: FragmentManager, fragmentActivity: FragmentActivity, stories: List<Story>) {
+    fun setup(
+        fragmentManager: FragmentManager,
+        fragmentActivity: FragmentActivity,
+        stories: List<Story>
+    ) {
         contextFragmentActivity = fragmentActivity
         this.fragmentManager = fragmentManager
         this.stories = stories
@@ -45,12 +49,20 @@ class StoryView @JvmOverloads constructor(
         currentClickedView = clickedView
         StoriesDialogFragment.newInstance(
             fragmentManager = fragmentManager,
-            contextFragmentActivity,
-            index,
-            clickedView,
-            stories,
-            this
+            contextFragmentActivity = contextFragmentActivity,
+            clickedIndex = index,
+            clickedView = clickedView,
+            stories = stories,
+            listener = this
         )
+    }
+
+    override fun getCurrentStoryView(currentIndex: Int): View? {
+        return vb.rvHighlights.findViewHolderForAdapterPosition(currentIndex)?.itemView
+    }
+
+    override fun scrollRecycler(currentIndex: Int) {
+        vb.rvHighlights.smoothScrollToPosition(currentIndex)
     }
 
     override fun onAllStoriesViewClick() {
@@ -60,13 +72,5 @@ class StoryView @JvmOverloads constructor(
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         stories = emptyList()
-    }
-
-    override fun getCurrentStoryView(currentIndex: Int): View? {
-        return vb.rvHighlights.findViewHolderForAdapterPosition(currentIndex)?.itemView
-    }
-
-    override fun recyclerScroll(currentIndex: Int) {
-        vb.rvHighlights.smoothScrollToPosition(currentIndex)
     }
 }

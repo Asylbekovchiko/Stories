@@ -7,6 +7,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.view.Window
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.Toast
@@ -39,7 +40,11 @@ class StoriesDialogFragment : DialogFragment(), StoryCallbackListener {
         return dialog
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_stories_dialog, container, false)
     }
 
@@ -58,30 +63,38 @@ class StoriesDialogFragment : DialogFragment(), StoryCallbackListener {
         }
     }
 
-    private fun showStory(clickedView: View?, duration: Long = 310L) {
+    private fun showStory(clickedView: View?, duration: Long = 220L) =
         clickedView?.let {
             val location = IntArray(2).apply { clickedView.getLocationOnScreen(this) }
-            viewPager.apply {
-                pivotX = 0f
-                pivotY = 0f
-                scaleX = if (width > 0) clickedView.width.toFloat() / width else 1f
-                scaleY = if (height > 0) clickedView.height.toFloat() / height else 1f
-                translationX = location[0].toFloat()
-                translationY = location[1].toFloat()
-                animate()
-                    .scaleX(1f)
-                    .scaleY(1f)
-                    .translationX(0f)
-                    .translationY(0f)
-                    .setDuration(duration)
-                    .setInterpolator(AccelerateDecelerateInterpolator())
-                    .start()
-            }
+
+            viewPager.viewTreeObserver.addOnGlobalLayoutListener(object :
+                ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    viewPager.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    val width = viewPager.width
+                    val height = viewPager.height
+                    viewPager.apply {
+                        pivotX = 0f
+                        pivotY = 0f
+                        scaleX = if (width > 0) clickedView.width.toFloat() / width else 1f
+                        scaleY = if (height > 0) clickedView.height.toFloat() / height else 1f
+                        translationX = location[0].toFloat()
+                        translationY = location[1].toFloat()
+                        animate()
+                            .scaleX(1f)
+                            .scaleY(1f)
+                            .translationX(0f)
+                            .translationY(0f)
+                            .setDuration(duration)
+                            .setInterpolator(AccelerateDecelerateInterpolator())
+                            .start()
+                    }
+                }
+            })
         }
-    }
 
     override fun closingStory() {
-        dialogCloseListener?.recyclerScroll(viewPager.currentItem)
+        dialogCloseListener?.scrollRecycler(viewPager.currentItem)
         handler.postDelayed({
             dialogCloseListener?.getCurrentStoryView(viewPager.currentItem)?.let { closeStory(it) }
         }, 100)
@@ -93,7 +106,7 @@ class StoriesDialogFragment : DialogFragment(), StoryCallbackListener {
             .scaleX(clickedView.width.toFloat() / viewPager.width)
             .scaleY(clickedView.height.toFloat() / viewPager.height)
             .translationX(location[0].toFloat())
-            .translationY((location[1] / 2).toFloat())
+            .translationY((location[1]).toFloat())
             .setDuration(duration)
             .setInterpolator(AccelerateDecelerateInterpolator())
             .withEndAction { dismiss() }
@@ -125,8 +138,15 @@ class StoriesDialogFragment : DialogFragment(), StoryCallbackListener {
     }
 
     companion object {
-        fun newInstance(fragmentManager: FragmentManager, contextFragmentActivity: FragmentActivity, clickedIndex: Int, clickedView: View, stories: List<Story>, listener: DialogCloseListener) {
-           StoriesDialogFragment().apply {
+        fun newInstance(
+            fragmentManager: FragmentManager,
+            contextFragmentActivity: FragmentActivity,
+            clickedIndex: Int,
+            clickedView: View,
+            stories: List<Story>,
+            listener: DialogCloseListener
+        ) {
+            StoriesDialogFragment().apply {
                 this.contextFragmentActivity = contextFragmentActivity
                 this.clickedView = clickedView
                 this.currentIndex = clickedIndex
@@ -139,5 +159,5 @@ class StoriesDialogFragment : DialogFragment(), StoryCallbackListener {
 
 interface DialogCloseListener {
     fun getCurrentStoryView(currentIndex: Int): View?
-    fun recyclerScroll(currentIndex: Int)
+    fun scrollRecycler(currentIndex: Int)
 }

@@ -23,6 +23,7 @@ import kg.nurtelecom.stories.views.GesturesListener
 import kg.nurtelecom.stories.views.ProgressBarListener
 
 class StoryFragment : Fragment(), ProgressBarListener, GesturesListener {
+
     private var story: Story? = null
     private var detailedStories = listOf<DetailedStory>()
     private var listener: StoryCallbackListener? = null
