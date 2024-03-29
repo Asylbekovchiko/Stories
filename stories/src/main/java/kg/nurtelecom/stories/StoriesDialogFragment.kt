@@ -106,7 +106,7 @@ class StoriesDialogFragment : DialogFragment(), StoryCallbackListener {
             .scaleX(clickedView.width.toFloat() / viewPager.width)
             .scaleY(clickedView.height.toFloat() / viewPager.height)
             .translationX(location[0].toFloat())
-            .translationY((location[1] / 2).toFloat())
+            .translationY((location[1]).toFloat())
             .setDuration(duration)
             .setInterpolator(AccelerateDecelerateInterpolator())
             .withEndAction { dismiss() }
