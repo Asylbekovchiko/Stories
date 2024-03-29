@@ -9,6 +9,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        findViewById<StoryView>(R.id.cv_story_view).setup(this, Mocks.stories)
+        findViewById<StoryView>(R.id.cv_story_view).setup(supportFragmentManager,this, Mocks.stories)
     }
 }
