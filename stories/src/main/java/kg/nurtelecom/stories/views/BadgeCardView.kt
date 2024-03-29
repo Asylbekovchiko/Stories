@@ -40,7 +40,7 @@ class BadgeCardView @JvmOverloads constructor(context: Context, attrs: Attribute
         }
     }
 
-    fun setCardBackground(resId: Int) {
+    private fun setCardBackground(resId: Int) {
         vb.contentContainer.setBackgroundResource(resId)
     }
 
@@ -52,11 +52,11 @@ class BadgeCardView @JvmOverloads constructor(context: Context, attrs: Attribute
         vb.ivIcon.setImageResource(drawableResId)
     }
 
-    fun setIcon(drawable: Drawable?) {
+    private fun setIcon(drawable: Drawable?) {
         vb.ivIcon.setImageDrawable(drawable)
     }
 
-    fun setTitle(text: String) {
+    private fun setTitle(text: String) {
         vb.tvText.text = text
     }
 
